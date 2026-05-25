@@ -1,0 +1,2 @@
+## Get Product detaills for Id 2
+GET http://localhost:8080/product/2
