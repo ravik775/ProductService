@@ -1,2 +1,21 @@
+@URL=http://localhost:8080
 ## Get Product detaills for Id 2
-GET http://localhost:8080/product/2
+GET {{URL}}/product/2
+
+###
+GET {{URL}}/products/
+
+
+###
+POST {{URL}}/product
+Content-Type: application/json
+
+{
+  "description": "Slim-fitting style",
+  "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
+  "price": 22,
+  "title": "Mens Casual Premium Shirts "
+}
+
+### Product not existing
+GET {{URL}}/product/299
