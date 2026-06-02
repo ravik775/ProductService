@@ -2,6 +2,7 @@ package org.bgm.productservice.dtos;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.bgm.productservice.model.Category;
 import org.bgm.productservice.model.Product;
 
 @Setter
@@ -12,6 +13,7 @@ public class ProductDTO {
     private long price;
     private String description;
     private String image;
+    private String categoryName;
 
     public Product toProduct() {
         Product product = new Product();
@@ -30,6 +32,7 @@ public class ProductDTO {
         dto.setId((product.getId()));
         dto.setImage(product.getImage());
         dto.setPrice(product.getPrice());
+        dto.setCategoryName(product.getCategory().getName());
         return dto;
     }
 

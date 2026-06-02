@@ -1,6 +1,6 @@
 @URL=http://localhost:8080
 ## Get Product detaills for Id 2
-GET {{URL}}/product/2
+GET {{URL}}/product/1
 
 ###
 GET {{URL}}/products/

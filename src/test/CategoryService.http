@@ -1,0 +1,4 @@
+@URL=http://localhost:8080
+
+### Get All Categories
+GET {{URL}}/category/
