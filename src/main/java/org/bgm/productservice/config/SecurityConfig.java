@@ -15,10 +15,17 @@
     import org.springframework.security.jackson2.SecurityJackson2Modules;
     import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
     import org.springframework.security.web.SecurityFilterChain;
+    import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
     import org.springframework.security.web.authentication.WebAuthenticationDetails;
+    import org.springframework.security.web.debug.DebugFilter;
 
     @Configuration
     public class SecurityConfig {
+
+        @Bean
+        public SecurityDebugFilter debugFilter() {
+            return new SecurityDebugFilter();
+        }
 
         @Bean
         public PasswordEncoder getPasswordEncoder(){
@@ -48,14 +55,10 @@
 
         @Bean
         @Order(1)
-        public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http)
+        public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http,
+                                                                 SecurityDebugFilter debugFilter)
                 throws Exception {
-    /*
-    Authorize:
-    /oauth2/authorize
-    /oauth2/token
-    /oauth2/jwks
-     */
+
             OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
                     new OAuth2AuthorizationServerConfigurer();
 
@@ -63,17 +66,35 @@
                     authorizationServerConfigurer.getEndpointsMatcher()
             );
 
+            // 1. Enable authorization server features
             http.with(
                     authorizationServerConfigurer,
                     Customizer.withDefaults()
             );
 
+            // 2. FIX: Force authentication on all endpoints matching this chain
+            http.authorizeHttpRequests(authorize -> authorize
+                    .anyRequest().authenticated()
+            );
+
+            // 3. Keep your entry point for redirection
+            http.exceptionHandling(ex ->
+                    ex.authenticationEntryPoint(
+                            new LoginUrlAuthenticationEntryPoint("/login")
+                    )
+            );
+
+            http.addFilterAfter(
+                    debugFilter,
+                    org.springframework.security.web.context.SecurityContextHolderFilter.class
+            );
             return http.build();
         }
 
         @Bean
         @Order(2)
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                       SecurityDebugFilter debugFilter) throws Exception {
     /*
     Authorize
     /products
@@ -89,7 +110,10 @@
                             .anyRequest()
                             .authenticated())
                     .formLogin(Customizer.withDefaults());
-
+            http.addFilterAfter(
+                    debugFilter,
+                    org.springframework.security.web.context.SecurityContextHolderFilter.class
+            );
             return http.build();
         }
     }

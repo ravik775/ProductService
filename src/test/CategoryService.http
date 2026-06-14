@@ -1,4 +1,13 @@
 @URL=http://localhost:8080
 
+
+### Obtain Access Token
+
+POST {{URL}}/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+Authorization: Basic Y3JlZC1vaWRjLWNsaWVudDpzZWNyZXQ=
+grant_type=authorization_code&code=auha4kpb5r4cVDpuQ8Cu-IAupWhfYJnbtho-y01_s_-pKU7iB18embXyw0OKBv6qMmE038d57OQOCGI4zsjAiz6jrvN8lJlWS0BCNyBEfjPNa14blXwUzwdFxULzn3uB&redirect_uri=https%3A%2F%2Foauth.pstmn.io%2Fv1%2Fcallback&code_verifier=zVhln3MVtFIRsM0vxJ2fqdiXedHHgD6o7gQhdzrCJbU
+
 ### Get All Categories
 GET {{URL}}/category/
+Authorization: Bearer 
