@@ -1,0 +1,41 @@
+https://github.com/abhishekghosh-scaler/UserServiceJan31Capstone
+
+https://docs.spring.io/spring-authorization-server/reference/getting-started.html
+
+
+Security Flow:
+
+1. User calls /products
+                |
+                v
+2. No token
+                |
+                v
+3. Redirect/Login
+                |
+                v
+4. Username & Password
+                |
+                v
+5. Authorization Server validates
+   user from JPA database
+                |
+                v
+6. JWT token generated
+                |
+                v
+7. Client receives token
+                |
+                v
+8. Calls Product Service
+   with Bearer Token
+                |
+                v
+9. Resource Server validates JWT
+                |
+                v
+10. Request allowed
+
+TODO:
+
+What is the difference between OAuth and Open Id Connect?
