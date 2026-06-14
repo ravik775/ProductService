@@ -7,6 +7,8 @@ import org.bgm.productservice.exceptions.CreationException;
 import org.bgm.productservice.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -28,6 +30,14 @@ public class GlobalExceptionHandler {
         log.warn("Resource creation failed. uri={} message={}", request.getRequestURI(), ex.getMessage());
 
         return buildResponse(ex.getMessage(), request, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
+    public ResponseEntity<ErrorDTO> handleAccessDenied(Exception ex, HttpServletRequest request) {
+
+        log.warn("Access denied. uri={} message={}", request.getRequestURI(), ex.getMessage());
+
+        return buildResponse("Access denied", request, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)

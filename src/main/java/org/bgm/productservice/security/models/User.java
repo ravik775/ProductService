@@ -14,8 +14,8 @@ public class User extends BaseModel {
     private String username;
     private String password;
     private String[] roles;
-    private boolean accountExpired = true;
-    private boolean enabled=true;
-    private boolean credentialsExpired=true;
-    private boolean accountLocked=true;
+    private boolean accountExpired = false;
+    private boolean enabled = true;
+    private boolean credentialsExpired = false;
+    private boolean accountLocked = false;
 }

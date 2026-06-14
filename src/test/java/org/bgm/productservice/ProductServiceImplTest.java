@@ -6,16 +6,16 @@ import org.bgm.productservice.model.Category;
 import org.bgm.productservice.model.Product;
 import org.bgm.productservice.repository.CategoryRepository;
 import org.bgm.productservice.repository.ProductRepository;
-import org.bgm.productservice.services.CategoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static  org.mockito.Mockito.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Optional;
+
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class ProductServiceImplTest {
@@ -39,6 +39,7 @@ ProductController
     private ProductController productController;
 
     @Test
+    @WithMockUser(authorities = "Admin")
     void testProductCreation() throws Exception {
 
         Category category = new Category();
@@ -65,12 +66,12 @@ ProductController
         productDTO.setDescription("Description");
         productDTO.setImage("image");
         productDTO.setPrice(10);
-        productDTO.setCategoryName("Dummy");
+        productDTO.setCategory("Dummy");
 
         ProductDTO newProduct = productController.createProduct(productDTO);
 
         Assertions.assertEquals("title", newProduct.getTitle());
-        Assertions.assertEquals("Dummy", newProduct.getCategoryName());
+        Assertions.assertEquals("Dummy", newProduct.getCategory());
 
         verify(categoryRepository, times(2))
                 .findCategoryByNameIgnoreCase("Dummy");

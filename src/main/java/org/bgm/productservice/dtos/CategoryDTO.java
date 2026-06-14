@@ -21,7 +21,7 @@ public class CategoryDTO {
         return dto;
     }
 
-    public Category from(){
+    public Category toCategory() {
         var category = new Category();
         category.setDescription(description);
         category.setName(name);

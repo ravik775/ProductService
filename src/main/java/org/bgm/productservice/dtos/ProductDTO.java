@@ -13,15 +13,18 @@ public class ProductDTO {
     private long price;
     private String description;
     private String image;
-    private String categoryName;
+    private String category;
 
     public Product toProduct() {
         Product product = new Product();
+        var categoryObj = new Category();
+        categoryObj.setName(category);
         product.setId(id);
         product.setDescription(description);
         product.setTitle(title);
         product.setPrice(price);
         product.setImage(image);
+        product.setCategory(categoryObj);
         return product;
     }
 
@@ -32,7 +35,7 @@ public class ProductDTO {
         dto.setId((product.getId()));
         dto.setImage(product.getImage());
         dto.setPrice(product.getPrice());
-        dto.setCategoryName(product.getCategory().getName());
+        dto.setCategory(product.getCategory().getName());
         return dto;
     }
 

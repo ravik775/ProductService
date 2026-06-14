@@ -77,12 +77,12 @@ this usually does not work reliably when there are multiple levels of @InjectMoc
 
         ProductDTO dto = new ProductDTO();
         dto.setTitle("title");
-        dto.setCategoryName("Dummy");
+        dto.setCategory("Dummy");
         dto.setPrice(10);
 
         ProductDTO result = productController.createProduct(dto);
         Assertions.assertEquals("title", result.getTitle());
-        Assertions.assertEquals("Dummy", result.getCategoryName());
+        Assertions.assertEquals("Dummy", result.getCategory());
 
         verify(categoryRepository, times(2))
                 .findCategoryByNameIgnoreCase("Dummy");

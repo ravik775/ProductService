@@ -1,20 +1,35 @@
 @URL=http://localhost:8080
-## Get Product detaills for Id 2
+@TOKEN=eyJraWQiOiI1OGQwODJhZi1iODlhLTRiNTQtODg4OC01M2EyMmM1YmU5MmQiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJzdWIiOiJyYXZpazc3NUBnbWFpbC5jb20iLCJleHAiOjE3ODE0NjMxODIsImlhdCI6MTc4MTQ1OTU4MiwiYXV0aG9yaXRpZXMiOlsiRkFDVE9SX1BBU1NXT1JEIiwiQWRtaW4iXX0.fqBDgI_rqxDq8Lgnd0vUAKHhV0y9m9O5bYqCZR8Bo1AnMZpGYexK-dsyI7esthuDKuCEs-T0ZF-0Jqowkyg8uyCtRxXkRnc86qHrlV7dCKuMkaEYvN4ANfNIxLsBE8bT2hbGP9ADU_2U7xPuKzC2r6D8-dfxVmTSbwhMX1n5lsXaEJEAU8Y1QWkRrHeQYMIS3j7nQxSvm5reAju1f_weaZ_bYNHQQ3ImjH-MS0iN5cDPAPJXfXMRPzunCpBtQOKaA4fLhMwT0QBhnYiB-gML7IBQCDF_CD0Qxnx451rHKcqR0kvTuOy2C02ARqkpGWQhsEj3lbxOsgCfwnRmLffMpQ
+
+###
+POST {{URL}}/login
+Content-Type: application/json
+
+{
+  "username": "ravik775@gmail.com",
+  "password": "Test1234"
+}
+
+
+### Get Product detaills for Id 2
 GET {{URL}}/product/1
+Authorization: Bearer {{TOKEN}}
 
 ###
 GET {{URL}}/products/
-
+Authorization: Bearer {{TOKEN}}
 
 ###
 POST {{URL}}/product
 Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
 
 {
   "description": "Slim-fitting style",
   "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
   "price": 22,
-  "title": "Mens Casual Premium Shirts "
+  "title": "Mens Casual Premium Shirts",
+  "category": "Clothing"
 }
 
 ### Product not existing

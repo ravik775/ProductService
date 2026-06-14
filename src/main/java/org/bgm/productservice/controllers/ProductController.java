@@ -1,10 +1,11 @@
 package org.bgm.productservice.controllers;
 
 import org.bgm.productservice.dtos.ProductDTO;
+import org.bgm.productservice.security.HasAuthority;
 import org.bgm.productservice.services.CategoryService;
 import org.bgm.productservice.services.ProductService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,12 +23,14 @@ public class ProductController {
         this.categoryService = categoryService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") long id) throws Exception {
         var product = productService.getProductById(id);
         return ResponseEntity.ok(ProductDTO.fromProduct(product));
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/products/", method = RequestMethod.GET)
     public ResponseEntity<List<ProductDTO>> getProducts(@RequestParam(name="page", defaultValue = "1") int page,
                                                         @RequestParam(name="size", defaultValue = "20") int size) {
@@ -39,10 +42,11 @@ public class ProductController {
         return ResponseEntity.ok(productDtos);
     }
 
+    @HasAuthority("Admin")
     @PostMapping("/product")
     public ProductDTO createProduct(@RequestBody ProductDTO productDTO) throws Exception {
         var product = productDTO.toProduct();
-        var cat = categoryService.findCategoryByName(productDTO.getCategoryName());
+        var cat = categoryService.findCategoryByName(productDTO.getCategory());
         cat.ifPresent(product::setCategory);
         var newProduct = productService.createProduct(product);
         return ProductDTO.fromProduct(newProduct);
